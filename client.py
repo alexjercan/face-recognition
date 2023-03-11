@@ -10,7 +10,7 @@ async def webcam(websocket):
     video_capture = cv2.VideoCapture(0)
 
     while True:
-        ret, frame = video_capture.read()
+        _, frame = video_capture.read()
 
         data = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)[..., ::-1]
         height, width, _ = data.shape

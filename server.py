@@ -61,7 +61,7 @@ def create_face_recognition(whitelist_path: str, logger):
             recognition.add_face(image, name)
     logger.info("initialize recognition model done")
 
-    async def face_recognition(websocket):
+    async def face_recognition_fn(websocket):
         logger.info("Connection incoming...")
         async for message in websocket:
             logger.debug(f"-> received message of size {len(message)}")
@@ -79,7 +79,7 @@ def create_face_recognition(whitelist_path: str, logger):
             data = json.dumps(response)
             await websocket.send(data)
 
-    return face_recognition
+    return face_recognition_fn
 
 
 async def main():
@@ -96,8 +96,8 @@ async def main():
 
     logger.info("starting application")
 
-    face_recognition = create_face_recognition(whitelist_path, logger)
-    async with serve(face_recognition, "0.0.0.0", 8765):
+    face_recognition_fn = create_face_recognition(whitelist_path, logger)
+    async with serve(face_recognition_fn, "0.0.0.0", 8765):
         await asyncio.Future()  # run forever
 
 
