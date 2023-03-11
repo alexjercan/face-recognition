@@ -17,6 +17,10 @@ format: ## Format
 	python -m black *.py --exclude .venv/
 	python -m isort *.py --skip .venv/
 
+lint: ## Linter
+	python -m pylint server.py
+	python -m pylint client.py
+
 server: ## Build and deploy server
 	docker build --tag face-detection-demo .
 	docker run -it -p 8765:8765 face-detection-demo:latest
